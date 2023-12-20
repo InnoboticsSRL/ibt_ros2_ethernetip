@@ -20,7 +20,11 @@ class SickFlexySoftNode(Node):
         self.setOutput = self.create_service(SetAttrAll, 'setOutput', self.setOutputCallback)
         self.readInput = self.create_service(GetAttrAll, 'readInput', self.readInputCallback)
 
-        self.initEthIP()
+        try:
+            self.initEthIP()
+        except:
+            self.get_logger().error('Could not find EtherNetIP devices')
+            rclpy.shutdown()
     
     def setOutputCallback(self, request, response):
         byte_obj = struct.pack('B' * len(request.data), *request.data)
@@ -43,15 +47,14 @@ class SickFlexySoftNode(Node):
             sockinfo = ethernetip.SocketAddressInfo(node.socket_addr)
             ip = socket.inet_ntoa(struct.pack("!I", sockinfo.sin_addr))
             print(ip, " - ", name)
-
         pkt = self.C1.listID()
-        if pkt is not None:
+        if pkt:
             print("Product name: ", pkt.product_name.decode())
 
         pkt = self.C1.listServices()
         print("ListServices:", str(pkt))
         self.C1.registerSession()
-
+       
 
 def main(args=None):
     rclpy.init(args=args)
