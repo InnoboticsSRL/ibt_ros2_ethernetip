@@ -10,7 +10,7 @@ def generate_launch_description():
             output='screen',
             emulate_tty=True,
             parameters=[
-                {'hostname': '192.168.250.251'},
+                {'hostname': '192.168.250.250'},
                 {'broadcast': '192.168.255.255'}
             ]
         )
