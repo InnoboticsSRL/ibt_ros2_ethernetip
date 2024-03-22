@@ -74,3 +74,10 @@ CIP_ROUTER_ERROR_MEMBER_NOT_SETTABLE       = 0x29  # Cannot set value of member
 CIP_ROUTER_ERROR_UNKNOWN_MODBUS_ERROR      = 0x2B  # Unhandled Modbus Error
 CIP_ROUTER_ERROR_STILL_PROCESSING          = 0xFF  # Special marker to indicate we haven't finished processing the request yet
 ```
+
+## FlexySoftDesigner Settings
+### Gateway Configuration
+![Gateway Configuration](./img/sick_gateway1.png)
+
+### TCP/IP Configuration
+![TCP/IP Configuration](./img/sick_gateway2.png)
