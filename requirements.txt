@@ -1,1 +1,1 @@
-ethernetip==1.1.1
+pycomm3==1.2.14
