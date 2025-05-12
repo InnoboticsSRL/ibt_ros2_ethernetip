@@ -2,12 +2,12 @@ import struct
 import rclpy
 from rclpy.node import Node
 from pycomm3 import CIPDriver
-from awtube_interfaces.srv import GetAttrAll, SetAttrAll
+from ibt_ros2_interfaces.srv import GetAttrAll, SetAttrAll
 
 class SickFlexySoftNode(Node):
 
     def __init__(self):
-        super().__init__('sick_flexysoft')
+        super().__init__('ibt_ethernetip')
         self.declare_parameters(
             namespace='',
             parameters=[

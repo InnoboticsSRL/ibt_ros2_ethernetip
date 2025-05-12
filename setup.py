@@ -2,7 +2,7 @@ from setuptools import setup
 import os
 from glob import glob
 
-package_name = 'sick_flexysoft_ethernetip'
+package_name = 'ibt_ros2_ethernetip'
 
 setup(
     name=package_name,
@@ -17,13 +17,13 @@ setup(
     install_requires=['setuptools','ethernetip'],
     zip_safe=True,
     maintainer='Mattia Dei Rossi',
-    maintainer_email='deirossi@automationware.it',
+    maintainer_email='mattia.deirossi@innobotics.it',
     description='TODO: Package description',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'sick_flexysoft = sick_flexysoft_ethernetip.sick_flexysoft:main'
+            'ibt_ros2_ethernetip = ibt_ros2_ethernetip.ibt_ros2_ethernetip_node:main'
         ],
     },
 )
