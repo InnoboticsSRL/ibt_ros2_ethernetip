@@ -16,36 +16,42 @@ class SickFlexySoftNode(Node):
         self.hostname = self.get_parameter('hostname').get_parameter_value().string_value
         self.setOutput = self.create_service(SetAttrAll, 'setOutput', self.setOutputCallback)
         self.readInput = self.create_service(GetAttrAll, 'readInput', self.readInputCallback)
-
-        try:
-            self.device = CIPDriver(self.hostname)
-        except:
-            self.get_logger().error('Could not find EtherNetIP devices')
-            rclpy.shutdown()
+        self.get_logger().info("EtherNet node IP ready!")
     
     def setOutputCallback(self, request, response):
         byte_obj = struct.pack('B' * len(request.data), *request.data)
-        with CIPDriver(self.hostname) as device:
-            data = device.generic_message(
-                service=b'\x01',            # setAttrAll
-                class_code=request.clas,
-                instance=request.instance,
-                request_data=byte_obj
-            )
-            response.error = data.error if data.error else ""
-            return response 
-        
+        try:
+            with CIPDriver(self.hostname) as device:
+                data = device.generic_message(
+                    service=b'\x01',            # setAttrAll
+                    class_code=request.clas,
+                    instance=request.instance,
+                    request_data=byte_obj
+                )
+                response.result_code = 0
+
+        except Exception as e:
+            self.get_logger().error(f"SetAttrAll error: {e}")
+            response.result_code = 1
+        return response
+
     def readInputCallback(self, request, response):
-        with CIPDriver(self.hostname) as device:
-            data = device.generic_message(
-                service=b'\x01',            # getAttrAll
-                class_code=request.clas,
-                instance=request.instance
-            )
-            response.error = data.error if data.error else ""
-            response.result = data.value
-            return response
-       
+        try:
+
+            with CIPDriver(self.hostname) as device:
+                data = device.generic_message(
+                    service=b'\x01',            # getAttrAll
+                    class_code=request.clas,
+                    instance=request.instance
+                )
+                response.result_code = 0
+                response.result = list(data.value) if data.value is not None else []
+
+        except Exception as e:
+            self.get_logger().error(f"GetAttrAll error: {e}")
+            response.result_code = 1
+            response.result = []
+        return response
 
 def main(args=None):
     rclpy.init(args=args)
