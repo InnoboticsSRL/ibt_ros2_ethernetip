@@ -16,6 +16,17 @@ class SickFlexySoftNode(Node):
         self.hostname = self.get_parameter('hostname').get_parameter_value().string_value
         self.setOutput = self.create_service(SetAttrAll, 'setOutput', self.setOutputCallback)
         self.readInput = self.create_service(GetAttrAll, 'readInput', self.readInputCallback)
+
+        try:
+            with CIPDriver(self.hostname) as device:
+                if device.connected:
+                    self.get_logger().info(f"Device {self.hostname} connected successfully")
+                else:
+                    self.get_logger().warn(f"⚠️ Connection to {self.hostname} failed")
+        except Exception as e:
+            self.get_logger().error(f"❌ Initial connection error to {self.hostname}: {e}")
+            self.get_logger().error("Please check the IP address and network connection.")
+
         self.get_logger().info("EtherNet node IP ready!")
     
     def setOutputCallback(self, request, response):
