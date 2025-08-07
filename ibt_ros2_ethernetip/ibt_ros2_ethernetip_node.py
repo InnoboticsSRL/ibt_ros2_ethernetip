@@ -1,7 +1,7 @@
 import struct
 import rclpy
 from rclpy.node import Node
-from pycomm3 import CIPDriver
+from pycomm3 import CIPDriver, Services
 from ibt_ros2_interfaces.srv import GetAttrAll, SetAttrAll
 
 class SickFlexySoftNode(Node):
@@ -34,16 +34,16 @@ class SickFlexySoftNode(Node):
         try:
             with CIPDriver(self.hostname) as device:
                 data = device.generic_message(
-                    service=b'\x01',            # setAttrAll
+                    service=Services.set_attributes_all,
                     class_code=request.clas,
                     instance=request.instance,
                     request_data=byte_obj
                 )
-                response.result_code = 0
+                response.result_message = str(data.error)
 
         except Exception as e:
             self.get_logger().error(f"SetAttrAll error: {e}")
-            response.result_code = 1
+            response.result_message = str(e)
         return response
 
     def readInputCallback(self, request, response):
@@ -51,16 +51,16 @@ class SickFlexySoftNode(Node):
 
             with CIPDriver(self.hostname) as device:
                 data = device.generic_message(
-                    service=b'\x01',            # getAttrAll
+                    service=Services.get_attributes_all,
                     class_code=request.clas,
                     instance=request.instance
                 )
-                response.result_code = 0
+                response.result_message = str(data.error)
                 response.result = list(data.value) if data.value is not None else []
 
         except Exception as e:
             self.get_logger().error(f"GetAttrAll error: {e}")
-            response.result_code = 1
+            response.result_message = str(e)
             response.result = []
         return response
 
