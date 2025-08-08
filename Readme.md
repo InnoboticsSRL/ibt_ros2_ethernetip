@@ -7,6 +7,7 @@ ROS 2 packages for Sick EthernetIP Gateway FX0-GENT00000
 ros2 service call /readInput ibt_ros2_interfaces/srv/GetAttrAll "clas: 0x72
 instance: 1"
 ```
+Be sure of the size of the byte array that you're sending
 ```bash
 ros2 service call /setOutput ibt_ros2_interfaces/srv/SetAttrAll "clas: 0x72
 instance: 1  
@@ -20,7 +21,8 @@ data:
 - 0
 - 0
 - 0
-- 0"
+- 0
+- ..."
 ```
 
 ## Registers

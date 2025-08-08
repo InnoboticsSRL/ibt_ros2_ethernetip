@@ -1,0 +1,46 @@
+{
+  "DigitalSignals": {
+    "Fungo d'Emergenza": {
+      "byteIndex": 4,
+      "bitIndex": 0,
+      "description": ""
+    },
+		"Selettore Manuale": {
+      "byteIndex": 4,
+      "bitIndex": 4,
+      "description": ""
+    },
+		"Selettore Automatico": {
+      "byteIndex": 4,
+      "bitIndex": 5,
+      "description": ""
+    },
+    "Start Ciclo": {
+      "byteIndex": 13,
+      "bitIndex": 0,
+      "description": ""
+    },
+		"Richiesta Arresto Ciclo": {
+			"byteIndex": 14,
+			"bitIndex": 7,
+			"description": ""
+		},
+		"Power Supply": {
+			"byteIndex": 16,
+			"bitIndex": 0,
+			"description": "Alimentazione del sistema"
+		},
+		"Start Possible": {
+			"byteIndex": 17,
+			"bitIndex": 0,
+			"description": "Indica se il sistema è pronto per accettare un comando di start"
+		}
+  },
+	"DigitalTriggers" : {
+		"isIdle": {
+			"byteIndex": 4,
+			"bitIndex": 6,
+			"description": "Fermo in coppia dopo lo stato ERROR"
+		}
+	}
+}
