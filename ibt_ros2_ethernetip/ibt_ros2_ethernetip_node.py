@@ -28,9 +28,10 @@ class SickFlexySoftNode(Node):
             self.get_logger().error("Please check the IP address and network connection.")
 
         self.get_logger().info("EtherNet node IP ready!")
-    
+
     def setOutputCallback(self, request, response):
         byte_obj = struct.pack('B' * len(request.data), *request.data)
+        # self.get_logger().info(f"Sending {len(byte_obj)} bytes: {byte_obj}")
         try:
             with CIPDriver(self.hostname) as device:
                 data = device.generic_message(
